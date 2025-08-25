@@ -1,4 +1,4 @@
-package com.feny.pokemonjetpack.data.repository
+package com.feny.pokemonjetpack.domain.repository
 
 import com.feny.pokemonjetpack.domain.model.Pokemon
 
