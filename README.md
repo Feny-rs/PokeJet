@@ -30,7 +30,7 @@ This app fetches Pokémon data from the [PokéAPI](https://github.com/PokeAPI/po
 ## 📷 Screenshots
 | List Mode                   | Grid Mode                   | Detail Screen                   |
 |-----------------------------|-----------------------------|---------------------------------|
-| ![List](assets/ss_list.png) | ![Grid](assets/ss_grid.png) | ![Detail](assets/ss_detail.png) |
+| ![List](assets/ss_list.jpg) | ![Grid](assets/ss_grid.jpg) | ![Detail](assets/ss_detail.jpg) |
 
 ---
 
