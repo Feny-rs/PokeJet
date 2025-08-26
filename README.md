@@ -41,7 +41,7 @@ This app fetches Pokémon data from the [PokéAPI](https://github.com/PokeAPI/po
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Android Studio Ladybug 🐞 or newer
+- Android Studio Meerkat 🐞 or newer
 - JDK 17+
 - Gradle 8+
 
