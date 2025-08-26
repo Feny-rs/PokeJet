@@ -18,9 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.feny.pokemonjetpack.ui.theme.presentation.utils.getStatColor
 
 @Composable
 fun StatBar(
@@ -66,18 +66,5 @@ fun StatBar(
             color = getStatColor(name),
             trackColor = MaterialTheme.colorScheme.surfaceVariant
         )
-    }
-}
-
-@Composable
-private fun getStatColor(statName: String): Color {
-    return when (statName.lowercase()) {
-        "hp" -> Color(0xFF4CAF50)       // Green
-        "attack" -> Color(0xFFF44336)   // Red
-        "defense" -> Color(0xFF2196F3)  // Blue
-        "speed" -> Color(0xFFFFC107)    // Amber
-        "special-attack" -> Color(0xFF9C27B0) // Purple
-        "special-defense" -> Color(0xFF00BCD4) // Cyan
-        else -> MaterialTheme.colorScheme.primary
     }
 }

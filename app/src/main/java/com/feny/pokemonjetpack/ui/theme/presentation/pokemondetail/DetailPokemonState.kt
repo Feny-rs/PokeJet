@@ -1,4 +1,4 @@
-package com.feny.pokemonjetpack.ui.theme.presentation.detail
+package com.feny.pokemonjetpack.ui.theme.presentation.pokemondetail
 
 import com.feny.pokemonjetpack.domain.model.Pokemon
 

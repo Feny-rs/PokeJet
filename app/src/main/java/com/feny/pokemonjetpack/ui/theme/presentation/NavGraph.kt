@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.feny.pokemonjetpack.ui.theme.presentation.detail.DetailPokemonScreen
+import com.feny.pokemonjetpack.ui.theme.presentation.pokemondetail.DetailPokemonScreen
 import com.feny.pokemonjetpack.ui.theme.presentation.pokemonlist.PokemonListScreen
 
 @Composable

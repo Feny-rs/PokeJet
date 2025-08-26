@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Pokemon Jetpack"
+rootProject.name = "PokeJet"
 include(":app")
  

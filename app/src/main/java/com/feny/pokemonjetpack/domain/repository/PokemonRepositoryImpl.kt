@@ -9,7 +9,7 @@ import com.feny.pokemonjetpack.domain.model.Pokemon
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 
 class PokemonRepositoryImpl(
     private val api: PokemonApiService,
@@ -17,15 +17,17 @@ class PokemonRepositoryImpl(
 ) : PokemonRepository {
 
     override suspend fun getPokemonList(limit: Int, offset: Int): List<Pokemon> {
-        // 1. Cek cache (ambil sekali dari Flow)
-        val cached = dao.getAllPokemon().first()
-        if (cached.isNotEmpty()) {
-            return cached.map { it.toDomain() }
+        // Take from cache first
+        val cached = dao.getAllPokemon().firstOrNull()
+        if (cached != null && cached.isNotEmpty()) {
+            val slice = cached.drop(offset).take(limit)
+            if (slice.isNotEmpty()) return slice.map { it.toDomain() }
         }
 
-        // 2. Ambil dari API secara paralel
+        // Get from API
         val response = api.getPokemonList(limit, offset)
 
+        // Save each Pokémon's details to the cache asynchronously
         val list = coroutineScope {
             response.results.map { item ->
                 async {
@@ -35,18 +37,25 @@ class PokemonRepositoryImpl(
             }.awaitAll()
         }
 
-        // 3. Simpan ke cache
         dao.insertPokemonList(list.map { it.toEntity() })
-
         return list
+    }
+
+    override suspend fun getAllPokemon(): List<Pokemon> {
+        val cached = dao.getAllPokemon().firstOrNull()
+        return if (!cached.isNullOrEmpty()) {
+            cached.map { it.toDomain() }
+        } else {
+            // By and large, this will fetch all data from the API.
+            getPokemonList(1000, 0)
+        }
     }
 
     override suspend fun getPokemonDetail(name: String): Pokemon {
         return runCatching {
             api.getPokemonDetail(name).toDomain()
         }.getOrElse { ex ->
-            // fallback ke cache kalau ada
-            val cached = dao.getAllPokemon().first().firstOrNull { it.name == name }
+            val cached = dao.getAllPokemon().firstOrNull()?.firstOrNull { it.name == name }
             cached?.toDomain() ?: throw ex
         }
     }

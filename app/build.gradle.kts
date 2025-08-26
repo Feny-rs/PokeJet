@@ -46,6 +46,12 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
+    // Splashscreen
+    implementation(libs.core.splashscreen)
+
+    // Accompanist
+    implementation(libs.accompanist.placeholder.material)
+
     // Jetpack compose
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

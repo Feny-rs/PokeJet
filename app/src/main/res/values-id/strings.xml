@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- General -->
+    <string name="app_name">PokéJet</string>
+    <string name="search_placeholder">Cari Pokémon...</string>
+    <string name="retry">Coba Lagi</string>
+    <string name="error">Kesalahan: %1$s</string>
+
+    <!-- Exit dialog -->
+    <string name="exit_title">Konfirmasi</string>
+    <string name="exit_message">Yakin mau keluar aplikasi?</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+
+    <!-- Detail screen -->
+    <string name="back">Kembali</string>
+    <string name="height">Tinggi: %1$s m</string>
+    <string name="weight">Berat: %1$s kg</string>
+    <string name="abilities">Kemampuan:</string>
+    <string name="stats">Stats:</string>
+</resources>

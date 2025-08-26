@@ -1,4 +1,4 @@
-package com.feny.pokemonjetpack.ui.theme.presentation.detail
+package com.feny.pokemonjetpack.ui.theme.presentation.pokemondetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -30,8 +30,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import com.feny.pokemonjetpack.R
 import com.feny.pokemonjetpack.ui.theme.presentation.common.StatBar
 import com.feny.pokemonjetpack.ui.theme.presentation.common.TypeChip
 import org.koin.androidx.compose.koinViewModel
@@ -52,7 +56,12 @@ fun DetailPokemonScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(pokemonName.replaceFirstChar { it.uppercase() }) },
+                title = {
+                    Text(
+                        pokemonName.replaceFirstChar { it.uppercase() },
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -71,10 +80,10 @@ fun DetailPokemonScreen(
                 state.isLoading -> CircularProgressIndicator()
 
                 state.error != null -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Error: ${state.error}")
+                    Text(stringResource(R.string.error, state.error ?: ""))
                     Spacer(Modifier.height(8.dp))
                     Button(onClick = { viewModel.loadPokemonDetail(pokemonName) }) {
-                        Text("Retry")
+                        Text(stringResource(R.string.retry))
                     }
                 }
 
@@ -88,15 +97,24 @@ fun DetailPokemonScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Image(
-                            painter = rememberAsyncImagePainter(pokemon?.imageUrl),
+                            painter = rememberAsyncImagePainter(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(pokemon?.imageUrl)
+                                    .crossfade(true)
+                                    .placeholder(R.drawable.ic_placeholder)
+                                    .error(R.drawable.ic_placeholder)
+                                    .build()
+                            ),
                             contentDescription = pokemon?.name,
                             modifier = Modifier.size(150.dp)
                         )
+
                         Spacer(Modifier.height(8.dp))
+
                         if (pokemon != null) {
                             Text(
                                 text = pokemon.name.replaceFirstChar { it.uppercase() },
-                                style = MaterialTheme.typography.headlineSmall
+                                style = MaterialTheme.typography.headlineMedium
                             )
                         }
 
@@ -118,12 +136,18 @@ fun DetailPokemonScreen(
 
                         Spacer(Modifier.height(16.dp))
 
-                        Text("Abilities:", style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            stringResource(R.string.abilities),
+                            style = MaterialTheme.typography.headlineSmall
+                        )
                         pokemon?.abilities?.forEach { ability -> Text("- $ability") }
 
                         Spacer(Modifier.height(16.dp))
 
-                        Text("Stats:", style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            stringResource(R.string.stats),
+                            style = MaterialTheme.typography.headlineSmall
+                        )
                         pokemon?.stats?.forEach { (stat, value) ->
                             StatBar(stat, value)
                         }

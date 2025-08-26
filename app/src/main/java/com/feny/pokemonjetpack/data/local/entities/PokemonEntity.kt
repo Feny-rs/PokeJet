@@ -18,7 +18,7 @@ fun PokemonEntity.toDomain(): Pokemon {
         id = id,
         name = name,
         imageUrl = imageUrl,
-        abilities = abilities, // sudah List<String>
+        abilities = abilities,
         types = emptyList(),
         height = 0,
         weight = 0,

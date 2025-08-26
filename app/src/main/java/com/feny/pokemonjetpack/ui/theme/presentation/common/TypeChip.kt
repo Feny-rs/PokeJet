@@ -8,14 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.feny.pokemonjetpack.ui.theme.presentation.utils.getTypeColor
 
 @Composable
 fun TypeChip(type: String) {
     Text(
-        text = type,
+        text = type.replaceFirstChar { it.uppercase() },
         color = Color.White,
         modifier = Modifier
-            .background(Color.Gray, shape = RoundedCornerShape(12.dp))
+            .background(getTypeColor(type), shape = RoundedCornerShape(12.dp))
             .padding(horizontal = 8.dp, vertical = 4.dp)
     )
 }

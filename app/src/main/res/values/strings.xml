@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">Pokemon Jetpack</string>
+    <string name="app_name">PokéJet</string>
+    <string name="search_placeholder">Search Pokémon...</string>
+    <string name="retry">Retry</string>
+    <string name="error">Error: %1$s</string>
+
+    <!-- Exit dialog -->
+    <string name="exit_title">Confirmation</string>
+    <string name="exit_message">Are you sure you want to exit the app?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!-- Detail screen -->
+    <string name="back">Back</string>
+    <string name="height">Height: %1$s m</string>
+    <string name="weight">Weight: %1$s kg</string>
+    <string name="abilities">Abilities:</string>
+    <string name="stats">Stats:</string>
 </resources>

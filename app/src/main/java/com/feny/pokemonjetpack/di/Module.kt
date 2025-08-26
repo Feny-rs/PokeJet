@@ -5,10 +5,11 @@ import com.feny.pokemonjetpack.data.local.AppDatabase
 import com.feny.pokemonjetpack.data.network.pokeapi.PokemonApiService
 import com.feny.pokemonjetpack.domain.repository.PokemonRepository
 import com.feny.pokemonjetpack.domain.repository.PokemonRepositoryImpl
-import com.feny.pokemonjetpack.ui.theme.presentation.detail.DetailPokemonViewModel
+import com.feny.pokemonjetpack.ui.theme.presentation.pokemondetail.DetailPokemonViewModel
 import com.feny.pokemonjetpack.ui.theme.presentation.pokemonlist.PokemonListViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
@@ -22,6 +23,12 @@ val networkModule = module {
                 json(Json {
                     ignoreUnknownKeys = true
                 })
+            }
+
+            install(HttpTimeout) {
+                connectTimeoutMillis = 30_000   // 30s
+                socketTimeoutMillis = 30_000    // 30s
+                requestTimeoutMillis = 30_000   // 30s
             }
         }
     }
