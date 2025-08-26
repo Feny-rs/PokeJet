@@ -32,6 +32,10 @@ This app fetches Pokémon data from the [PokéAPI](https://github.com/PokeAPI/po
 |-----------------------------|-----------------------------|---------------------------------|
 | ![List](assets/ss_list.jpg) | ![Grid](assets/ss_grid.jpg) | ![Detail](assets/ss_detail.jpg) |
 
+| Splash Screen               | Search                      | Confirm Exit Apps Screen        |
+|-----------------------------|-----------------------------|---------------------------------|
+| ![Home](assets/ss_splashscreen.jpg) | ![Favorite](assets/ss_filter_search.jpg) | ![Profile](assets/ss_confirm_close_apps.jpg) |
+
 ---
 
 ## 🚀 Getting Started
