@@ -1,21 +1,70 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# ----------------------------
+# Coil
+# ----------------------------
+-keep class coil.** { *; }
+-keep class com.bumptech.glide.** { *; }
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# ----------------------------
+# Ktor
+# ----------------------------
+-keep class io.ktor.** { *; }
+-keepclassmembers class io.ktor.** { *; }
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# ----------------------------
+# Room
+# ----------------------------
+-keep class androidx.room.** { *; }
+-keep class androidx.sqlite.** { *; }
+-keepclassmembers class * extends androidx.room.RoomDatabase {
+    <init>();
+}
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# ----------------------------
+# Koin
+# ----------------------------
+-keep class org.koin.** { *; }
+
+# ----------------------------
+# Jetpack Compose
+# ----------------------------
+-keep class androidx.compose.** { *; }
+-keep class kotlin.reflect.** { *; }
+-keepclassmembers class * {
+    @androidx.compose.runtime.Composable <methods>;
+}
+
+# ----------------------------
+# Kotlin Serialization
+# ----------------------------
+-keep class kotlinx.serialization.** { *; }
+-keepclassmembers class * {
+    @kotlinx.serialization.Serializable <fields>;
+}
+
+# ----------------------------
+# SplashScreen
+# ----------------------------
+-keep class androidx.core.splashscreen.** { *; }
+
+# ----------------------------
+# Navigation Compose
+# ----------------------------
+-keep class androidx.navigation.** { *; }
+
+# ----------------------------
+# Pokekotlin
+# ----------------------------
+-keep class co.pokeapi.pokekotlin.** { *; }
+
+# ----------------------------
+# Annotations
+# ----------------------------
+-keepattributes *Annotation*
+
+# ----------------------------
+# Suppress warnings from missing classes
+# ----------------------------
+-dontwarn java.lang.management.ManagementFactory
+-dontwarn java.lang.management.RuntimeMXBean
+-dontwarn org.slf4j.impl.StaticLoggerBinder
+-dontwarn org.slf4j.impl.StaticMDCBinder
