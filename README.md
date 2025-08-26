@@ -48,7 +48,7 @@ This app fetches Pokémon data from the [PokéAPI](https://github.com/PokeAPI/po
 ### Installation
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/pokemon-app.git
+   git clone https://github.com/Feny-rs/PokeJet.git
 2. Open in Android Studio.
 3. Sync Gradle and run the app on an emulator or real device.
 
@@ -57,6 +57,7 @@ This app fetches Pokémon data from the [PokéAPI](https://github.com/PokeAPI/po
 ## 📂 **Project Structure**
 ```
 .
+├── README.md
 ├── app
 │   ├── build
 │   │   ├── generated
@@ -72,6 +73,13 @@ This app fetches Pokémon data from the [PokéAPI](https://github.com/PokeAPI/po
 │       ├── androidTest
 │       ├── main
 │       └── test
+├── assets
+│   ├── ss_confirm_close_apps.jpg
+│   ├── ss_detail.jpg
+│   ├── ss_filter_search.jpg
+│   ├── ss_grid.jpg
+│   ├── ss_list.jpg
+│   └── ss_splashscreen.jpg
 ├── build.gradle.kts
 ├── gradle
 │   ├── libs.versions.toml
@@ -83,6 +91,7 @@ This app fetches Pokémon data from the [PokéAPI](https://github.com/PokeAPI/po
 ├── gradlew.bat
 ├── local.properties
 └── settings.gradle.kts
+
 ```
 
 
