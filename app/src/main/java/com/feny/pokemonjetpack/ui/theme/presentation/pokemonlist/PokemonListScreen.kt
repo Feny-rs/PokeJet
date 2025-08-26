@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,10 +15,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -25,6 +34,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -43,6 +53,7 @@ import com.feny.pokemonjetpack.R
 import com.feny.pokemonjetpack.domain.model.Pokemon
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("ContextCastToActivity")
 @Composable
 fun PokemonListScreen(
@@ -51,9 +62,12 @@ fun PokemonListScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val listState = rememberLazyListState()
+    val gridState = rememberLazyGridState()
+
     val activity = LocalContext.current as? Activity
 
     var showExitDialog by remember { mutableStateOf(false) }
+    val isGrid by viewModel.isGrid.collectAsState()
 
     BackHandler {
         showExitDialog = true
@@ -96,7 +110,22 @@ fun PokemonListScreen(
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
-        topBar = { }
+        topBar = {
+            TopAppBar(
+                title = { Text("") },
+                actions = {
+                    IconButton(onClick = { viewModel.toggleLayout() }) {
+                        Icon(
+                            painter = painterResource(
+                                if (isGrid) R.drawable.ic_list else R.drawable.ic_grid
+                            ),
+                            contentDescription = if (isGrid) "Switch to List" else "Switch to Grid",
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
+            )
+        }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -161,37 +190,72 @@ fun PokemonListScreen(
                         }
                     }
                 } else {
-                    LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                        items(state.pokemonList) { pokemon ->
-                            PokemonListItem(pokemon = pokemon, onClick = onPokemonClick)
-                        }
+                    if (isGrid) {
+                        // Pokemon Grid Mode
+                        LazyVerticalGrid(
+                            state = gridState,
+                            columns = GridCells.Fixed(2),
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(8.dp)
+                        ) {
+                            items(state.pokemonList) { pokemon ->
+                                PokemonGridItem(pokemon = pokemon, onClick = onPokemonClick)
+                            }
 
-                        if (state.isLoadingMore) {
-                            item {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(16.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    CircularProgressIndicator()
+                            if (state.isLoadingMore) {
+                                item(span = { GridItemSpan(maxLineSpan) }) {
+                                    CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                                }
+                            }
+                        }
+                    } else {
+                        // Pokemon List Mode
+                        LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+                            items(state.pokemonList) { pokemon ->
+                                PokemonListItem(pokemon = pokemon, onClick = onPokemonClick)
+                            }
+
+                            if (state.isLoadingMore) {
+                                item {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(16.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        CircularProgressIndicator()
+                                    }
                                 }
                             }
                         }
                     }
 
-                    LaunchedEffect(listState) {
-                        snapshotFlow { listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index }
-                            .collect { lastVisible ->
-                                if (lastVisible != null &&
-                                    lastVisible >= state.pokemonList.size - 3 &&
-                                    !state.isLoadingMore &&
-                                    !state.isLoading &&
-                                    state.query.isBlank()
-                                ) {
-                                    viewModel.loadNextPage()
+                    LaunchedEffect(isGrid, listState, gridState) {
+                        if (isGrid) {
+                            snapshotFlow { gridState.layoutInfo.visibleItemsInfo.lastOrNull()?.index }
+                                .collect { lastVisible ->
+                                    if (lastVisible != null &&
+                                        lastVisible >= state.pokemonList.size - 3 &&
+                                        !state.isLoadingMore &&
+                                        !state.isLoading &&
+                                        state.query.isBlank()
+                                    ) {
+                                        viewModel.loadNextPage()
+                                    }
                                 }
-                            }
+                        } else {
+                            snapshotFlow { listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index }
+                                .collect { lastVisible ->
+                                    if (lastVisible != null &&
+                                        lastVisible >= state.pokemonList.size - 3 &&
+                                        !state.isLoadingMore &&
+                                        !state.isLoading &&
+                                        state.query.isBlank()
+                                    ) {
+                                        viewModel.loadNextPage()
+                                    }
+                                }
+                        }
                     }
                 }
             }

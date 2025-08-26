@@ -14,10 +14,17 @@ class PokemonListViewModel(
     private val _state = MutableStateFlow(PokemonListState())
     val state: StateFlow<PokemonListState> = _state
 
+    private val _isGrid = MutableStateFlow(false)
+    val isGrid: StateFlow<Boolean> = _isGrid
+
     private val limit = 20
 
     init {
         loadPokemon(page = 0)
+    }
+
+    fun toggleLayout() {
+        _isGrid.value = !_isGrid.value
     }
 
     private fun loadPokemon(page: Int) {

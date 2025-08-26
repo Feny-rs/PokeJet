@@ -39,5 +39,10 @@ val Typography = Typography(
     bodyMedium = TextStyle(
         fontFamily = VT323,
         fontSize = 14.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = PressStart2P,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
     )
 )
